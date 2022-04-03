@@ -88,4 +88,12 @@ class AddressesController extends Controller
 
         return view('welcome', ['addresses' => $addresses]);
     }
+
+    public function search(Request $request){
+        $addresses= Address::query()
+            ->where('Addresses', $request->get('q'))
+            ->orWhere('Blockchain', $request->get('q'))
+            ->paginate(25);
+        return view('welcome', ['addresses' => $addresses]);
+    }
 }

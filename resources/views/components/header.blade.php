@@ -15,11 +15,15 @@
             </div>
         </div>
 
-        <div class="search-panel">
-            <input class="search-panel__input" name="q" type="text" placeholder="Search Blockchain information, enter address" />
-            <div class="search-panel__icon">
-                <img src="{{ asset('/imgs/ic_outline-search.svg') }}" alt="search-icon">
+        <form action="{{ route('search') }}">
+            <div class="search-panel">
+                <input class="search-panel__input" name="q" type="text"
+                       placeholder="Search Blockchain information, enter address"/>
+                <button class="search-panel__icon" style="background: transparent">
+                    <img src="{{ asset('/imgs/ic_outline-search.svg') }}" alt="search-icon">
+                </button>
+
             </div>
-        </div>
+        </form>
     </div>
 </header>
