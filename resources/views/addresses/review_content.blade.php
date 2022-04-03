@@ -1,9 +1,9 @@
 @foreach($reviews as $review)
     <div class="reviews__item" itemprop="comment" itemscope itemtype="http://schema.org/Comment">
         <div class="reviews__header">
-            <a href="#" class="link" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <div class="link" itemprop="author" itemscope itemtype="http://schema.org/Person">
                 <span itemprop="name">{{  Str::limit($review->Name, 30) }}</span>
-            </a>
+            </div>
             <div class="reviews__stars" itemprop="aggregateRating" itemscope itemtype="http://schema.org/Rating">
                 <meta itemprop="worstRating" content = "1">
                 <meta itemprop="bestRating" content = "5">
