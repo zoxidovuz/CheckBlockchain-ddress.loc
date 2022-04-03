@@ -4,7 +4,15 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
+<<<<<<< HEAD
     "content-hash": "a53f47141d6482b123b881cf508aa5b8",
+=======
+<<<<<<< HEAD
+    "content-hash": "4f9238c8ef397bb8777ecbb008a433f9",
+=======
+    "content-hash": "8249c51c1d24a1c0131ec2be36d78dda",
+>>>>>>> 7bce415215479b0fa14bfb986671306f69b696f0
+>>>>>>> 4b225066bcbca241dbd3cf89d84a28ca314e9638
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -3732,6 +3740,8 @@
                 "source": "https://github.com/spatie/temporary-directory/tree/1.3.0"
             },
             "time": "2020-11-09T15:54:21+00:00"
+<<<<<<< HEAD
+=======
         },
         {
             "name": "stevebauman/location",
@@ -3799,6 +3809,7 @@
                 "source": "https://github.com/stevebauman/location/tree/v6.3.1"
             },
             "time": "2022-02-16T13:52:28+00:00"
+>>>>>>> 7bce415215479b0fa14bfb986671306f69b696f0
         },
         {
             "name": "swiftmailer/swiftmailer",
