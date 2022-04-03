@@ -68,7 +68,7 @@ class AddressesController extends Controller
             'address' => 'required',
             'g-recaptcha-response' => 'required|recaptcha',
         ]);
-
+    
         $address = Address::query()->where('ID_address', $data['address'])->first();
         if (!$address) {
             return back()->with('error', 'Something error! Please refresh the page and resend feedback');
