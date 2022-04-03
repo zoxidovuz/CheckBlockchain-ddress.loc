@@ -30,7 +30,7 @@ class AddressesController extends Controller
 
 
         $tags = Tags::query()->where('ID_address', $addressBlock->ID_address)
-            ->limit(4)->orderBy('Date_Tag')->get();
+            ->orderBy('Date_Tag')->paginate(4, ['*'],'page_tag');
 
         $reviews = Reviews::query()->where('ID_address', $addressBlock->ID_address)
             ->where('Public_status', 1)

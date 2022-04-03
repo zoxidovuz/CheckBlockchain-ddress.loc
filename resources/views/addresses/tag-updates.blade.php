@@ -42,7 +42,10 @@
         @endforeach
         </tbody>
     </table>
-    <div class="updates__load-btn">
-        <a href="#" class="my-btn">Load more ...</a>
-    </div>
+    @if($tags->hasMorePages())
+        <div class="updates__load-btn">
+            <a href="{{ $tags->nextPageUrl() }}" class="my-btn">Load more ...</a>
+        </div>
+    @endif
+
 </section>
