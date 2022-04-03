@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Spatie\Sitemap\Sitemap;
 use Spatie\Sitemap\SitemapIndex;
 use Spatie\Sitemap\Tags\Url;
+use Stevebauman\Location\Facades\Location;
 
 class AddressesController extends Controller
 {
@@ -60,6 +61,7 @@ class AddressesController extends Controller
 
     public function store(Request $request)
     {
+
         $data = $request->validate([
             'name' => 'required',
             'tags' => 'required',
@@ -68,18 +70,19 @@ class AddressesController extends Controller
             'address' => 'required',
             'g-recaptcha-response' => 'required|recaptcha',
         ]);
-    
+
         $address = Address::query()->where('ID_address', $data['address'])->first();
         if (!$address) {
             return back()->with('error', 'Something error! Please refresh the page and resend feedback');
         }
 
+        $location = Location::get($request->ip());
         Reviews::query()->create([
             'Addresses' => $address->Addresses,
             'ID_address' => $data['address'],
             'Blockchain' => $address->Blockchain,
             'IP_address' => $request->ip(),
-            'Region' => "Russia",
+            'Region' => $location->regionName ?? 'None',
             'Browser' => $request->userAgent(),
             'Name' => $data['name'],
             'Tag' => implode(', ', $data['tags']),
