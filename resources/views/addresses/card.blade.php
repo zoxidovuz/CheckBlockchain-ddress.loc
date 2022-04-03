@@ -95,7 +95,7 @@
                 <td>
                     <div class="owner__tag-mycontainer">
                         @foreach($addressBlock->tags as $tag)
-                            <div class="owner__tag">{{ $tag->Blockchain }} </div>
+                            <div class="owner__tag">{{ $tag->Tag }} </div>
                         @endforeach
                     </div>
                 </td>

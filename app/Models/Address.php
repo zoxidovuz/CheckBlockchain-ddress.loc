@@ -10,11 +10,13 @@ class Address extends Model
     protected $table = 'Addresses';
     public $timestamps = false;
 
-    public function tags(){
-    return $this->hasMany(Tags::class, 'ID_address', 'ID_address');
-}
+    public function tags()
+    {
+        return $this->hasMany(Tags::class, 'Addresses', 'Addresses');
+    }
 
-    public function reviews(){
+    public function reviews()
+    {
         return $this->hasMany(Reviews::class, 'ID_address', 'ID_address');
     }
 }
