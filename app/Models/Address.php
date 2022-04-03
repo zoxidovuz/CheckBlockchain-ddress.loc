@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Address extends Model
 {
     protected $primaryKey = 'ID_address';
+    protected $table = 'Addresses';
     public $timestamps = false;
 
     public function tags(){
