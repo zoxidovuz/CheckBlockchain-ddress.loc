@@ -72,9 +72,13 @@
                 USER REVIEWS
             </h2>
             <div class="reviews__content">
-                @include('addresses.review_content')
-                @if($reviews->hasMorePages())
-                    <a href="{{ $reviews->nextPageUrl() }}" class="btn mt-4 load_more">Load more review</a>
+                @if($reviews->items())
+                    @include('addresses.review_content')
+                    @if($reviews->hasMorePages())
+                        <a href="{{ $reviews->nextPageUrl() }}" class="btn mt-4 load_more">Load more review</a>
+                    @endif
+                @else
+                    No reviews. Be first, leave review now
                 @endif
             </div>
         </div>

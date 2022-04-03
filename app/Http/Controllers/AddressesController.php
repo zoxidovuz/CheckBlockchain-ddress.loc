@@ -7,6 +7,11 @@ use App\Models\Explorer;
 use App\Models\Reviews;
 use App\Models\Tags;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
+use Spatie\Sitemap\Sitemap;
+use Spatie\Sitemap\SitemapGenerator;
+use Spatie\Sitemap\SitemapIndex;
+use Spatie\Sitemap\Tags\Url;
 
 class AddressesController extends Controller
 {
@@ -103,5 +108,46 @@ class AddressesController extends Controller
             ->orWhere('Blockchain', $request->get('q'))
             ->paginate(25);
         return view('welcome', ['addresses' => $addresses]);
+    }
+
+    public function sitemap(){
+        // Configuration
+        $sitemapIndexPath = 'sitemap.xml';
+        $i  = 1;
+        $sitemap_count = 100000;
+
+
+
+        $siteMapIndex = SitemapIndex::create();
+        $sitemap = Sitemap::create();
+
+        Address::query()->select(['ID_address', 'Addresses', 'Blockchain'])->chunkById(10000,
+            static function ($addresses) use ($i, $sitemap_count, $siteMapIndex, $sitemap) {
+            foreach ($addresses as $address){
+                if($i%$sitemap_count === 0){
+                    $sitemapPath = "items_sitemap_" . ($i/$sitemap_count) . ".xml";
+                    $sitemap->writeToFile($sitemapPath);
+
+                    $siteMapIndex->add($sitemapPath);
+                    $sitemap = Sitemap::create();
+                }
+                $sitemap->add(Url::create("/{$address->Addresses}-{$address->Blockchain}-address"));
+                $i++;
+            }
+        });
+
+        $sitemapPath = "items_sitemap_" . (round($i/$sitemap_count)) . ".xml";
+        $sitemap->writeToFile($sitemapPath);
+        $siteMapIndex->add($sitemapPath);
+
+        $siteMapIndex->writeToFile(public_path($sitemapIndexPath));
+
+        return response(file_get_contents(public_path($sitemapIndexPath)), 200, [
+            'Content-Type' => 'application/xml',
+
+
+
+
+        ]);
     }
 }
