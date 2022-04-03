@@ -17,9 +17,9 @@
         <div class="mycontainer content-wrapper">
             <div class="main-content">
                 <section class="block updates">
-                    <h2 class="block__title">
+                    <h1 class="block__title">
                         Addresses:
-                    </h2>
+                    </h1>
                     <table class="updates__table">
                         <thead>
                         <tr>

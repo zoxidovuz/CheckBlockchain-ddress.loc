@@ -56,7 +56,7 @@
                          itemtype="http://schema.org/Rating">
                         <meta itemprop="worstRating" content="1">
                         <div class="owner__tag red">
-                            <span itemprop="ratingValue">{{ round($addressBlock->reviews_avg_rating ?? 0, 1) }}</span> / <span
+                            <span itemprop="ratingValue">{{ $addressBlock->reviews_avg_rating ? round($addressBlock->reviews_avg_rating, 1) : '-' }}</span> / <span
                                 itemprop="bestRating">5</span>
                         </div>
                     </div>
