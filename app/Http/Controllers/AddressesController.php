@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Address;
+use App\Models\Explorer;
 use App\Models\Reviews;
 use App\Models\Tags;
 use Illuminate\Http\Request;
@@ -18,15 +19,19 @@ class AddressesController extends Controller
             ->withCount('reviews')
             ->firstOrFail();
 
+        $explorer = Explorer::where('Blockchain', $addressBlock->Blockchain)->first();
+
+
         $tags = Tags::query()->where('ID_address', $addressBlock->ID_address)
             ->limit(4)->orderBy('Date_Tag')->get();
 
         $reviews = Reviews::query()->where('ID_address', $addressBlock->ID_address)
+            ->where('Public_status', 1)
             ->orderBy('ID_Reviews','desc')
             ->with('tags')->paginate(5);
 
         $last_reviews = Reviews::query()
-//            ->where('Public_status', 1)
+            ->where('Public_status', 1)
             ->where('ID_address', '!=', $addressBlock->ID_address)
             ->orderBy('ID_Reviews', 'desc')
             ->groupBy('ID_address')
@@ -36,7 +41,7 @@ class AddressesController extends Controller
             ->get();
 
 
-        return view('addresses.address', compact('addressBlock', 'last_reviews', 'reviews', 'tags'));
+        return view('addresses.address', compact('addressBlock', 'last_reviews', 'reviews', 'tags', 'explorer'));
     }
 
 

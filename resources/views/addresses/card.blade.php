@@ -106,7 +106,7 @@
     <div class="owner__view-all">
         <h3 class="owner__view-all-header block__title">
             View all transactions on
-            <a href="#" class="link">{{ $addressBlock->Blockchain }}</a> browser
+            <a href="{{ $explorer->Link_to_explorer . $addressBlock->Addresses }}" class="link">{{ $addressBlock->Blockchain }}</a> browser
         </h3>
         <div>
             How can I:
