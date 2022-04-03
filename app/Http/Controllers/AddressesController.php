@@ -7,9 +7,7 @@ use App\Models\Explorer;
 use App\Models\Reviews;
 use App\Models\Tags;
 use Illuminate\Http\Request;
-use Illuminate\Support\Carbon;
 use Spatie\Sitemap\Sitemap;
-use Spatie\Sitemap\SitemapGenerator;
 use Spatie\Sitemap\SitemapIndex;
 use Spatie\Sitemap\Tags\Url;
 
@@ -30,14 +28,14 @@ class AddressesController extends Controller
 
 
         $tags = Tags::query()->where('ID_address', $addressBlock->ID_address)
-            ->orderBy('Date_Tag')->paginate(4, ['*'],'page_tag');
+            ->orderBy('Date_Tag')->paginate(4, ['*'], 'page_tag');
 
         $reviews = Reviews::query()->where('ID_address', $addressBlock->ID_address)
             ->where('Public_status', 1)
-            ->orderBy('ID_Reviews','desc')
+            ->orderBy('ID_Reviews', 'desc')
             ->with('tags')->paginate(5);
         // Ajax response
-        if($request->ajax()){
+        if ($request->ajax()) {
             return response()->json([
                 'html' => view('addresses.review_content', ['reviews' => $reviews])->render(),
                 'next' => $reviews->hasMorePages(),
@@ -72,7 +70,7 @@ class AddressesController extends Controller
         ]);
 
         $address = Address::query()->where('ID_address', $data['address'])->first();
-        if(!$address){
+        if (!$address) {
             return back()->with('error', 'Something error! Please refresh the page and resend feedback');
         }
 
@@ -97,25 +95,26 @@ class AddressesController extends Controller
 
     public function default()
     {
-        $addresses= Address::query()->paginate(25);
+        $addresses = Address::query()->paginate(25);
 
         return view('welcome', ['addresses' => $addresses]);
     }
 
-    public function search(Request $request){
-        $addresses= Address::query()
+    public function search(Request $request)
+    {
+        $addresses = Address::query()
             ->where('Addresses', $request->get('q'))
             ->orWhere('Blockchain', $request->get('q'))
             ->paginate(25);
         return view('welcome', ['addresses' => $addresses]);
     }
 
-    public function sitemap(){
+    public function sitemap()
+    {
         // Configuration
         $sitemapIndexPath = 'sitemap.xml';
-        $i  = 1;
+        $i = 1;
         $sitemap_count = 100000;
-
 
 
         $siteMapIndex = SitemapIndex::create();
@@ -123,20 +122,20 @@ class AddressesController extends Controller
 
         Address::query()->select(['ID_address', 'Addresses', 'Blockchain'])->chunkById(10000,
             static function ($addresses) use ($i, $sitemap_count, $siteMapIndex, $sitemap) {
-            foreach ($addresses as $address){
-                if($i%$sitemap_count === 0){
-                    $sitemapPath = "items_sitemap_" . ($i/$sitemap_count) . ".xml";
-                    $sitemap->writeToFile($sitemapPath);
+                foreach ($addresses as $address) {
+                    if ($i % $sitemap_count === 0) {
+                        $sitemapPath = "items_sitemap_" . ($i / $sitemap_count) . ".xml";
+                        $sitemap->writeToFile($sitemapPath);
 
-                    $siteMapIndex->add($sitemapPath);
-                    $sitemap = Sitemap::create();
+                        $siteMapIndex->add($sitemapPath);
+                        $sitemap = Sitemap::create();
+                    }
+                    $sitemap->add(Url::create("/{$address->Addresses}-{$address->Blockchain}-address"));
+                    $i++;
                 }
-                $sitemap->add(Url::create("/{$address->Addresses}-{$address->Blockchain}-address"));
-                $i++;
-            }
-        });
+            });
 
-        $sitemapPath = "items_sitemap_" . (round($i/$sitemap_count)) . ".xml";
+        $sitemapPath = "items_sitemap_" . (round($i / $sitemap_count)) . ".xml";
         $sitemap->writeToFile($sitemapPath);
         $siteMapIndex->add($sitemapPath);
 
@@ -144,8 +143,6 @@ class AddressesController extends Controller
 
         return response(file_get_contents(public_path($sitemapIndexPath)), 200, [
             'Content-Type' => 'application/xml',
-
-
 
 
         ]);
