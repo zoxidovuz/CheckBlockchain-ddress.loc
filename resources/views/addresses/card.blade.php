@@ -4,7 +4,7 @@
             Who's the owner of address:
         </div>
         <div class="owner__header-address">
-            {{ $addressBlock->Addresses }}
+            <h1>{{ $addressBlock->Addresses }}</h1>
         </div>
     </div>
     <div class="owner__descr" itemprop="description">
@@ -106,7 +106,7 @@
     <div class="owner__view-all">
         <h3 class="owner__view-all-header block__title">
             View all transactions on
-            <a href="{{ $explorer->Link_to_explorer . $addressBlock->Addresses }}" class="link">{{ $addressBlock->Blockchain }}</a> browser
+            <a href="{{ $explorer->Link_to_explorer . $addressBlock->Addresses }}" class="link" target="_blank">{{ $addressBlock->Blockchain }}</a> browser
         </h3>
         <div>
             How can I:

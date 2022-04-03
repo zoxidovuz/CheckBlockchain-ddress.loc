@@ -10,7 +10,7 @@ use Illuminate\Http\Request;
 
 class AddressesController extends Controller
 {
-    public function index($address, $blockchain)
+    public function index($address, $blockchain, Request $request)
     {
         $addressBlock = Address::query()
             ->where(['Addresses' => $address, 'Blockchain' => $blockchain])
@@ -31,6 +31,14 @@ class AddressesController extends Controller
             ->where('Public_status', 1)
             ->orderBy('ID_Reviews','desc')
             ->with('tags')->paginate(5);
+        // Ajax response
+        if($request->ajax()){
+            return response()->json([
+                'html' => view('addresses.review_content', ['reviews' => $reviews])->render(),
+                'next' => $reviews->hasMorePages(),
+                'next_page' => $reviews->nextPageUrl()
+            ]);
+        }
 
         $last_reviews = Reviews::query()
             ->where('Public_status', 1)

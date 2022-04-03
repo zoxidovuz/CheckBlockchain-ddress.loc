@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', [AddressesController::class, 'default']);
+Route::get('/', [AddressesController::class, 'default'])->name('default');
 Route::get('/search', [AddressesController::class, 'search'])->name('search');
 Route::post('feedback', [AddressesController::class, 'store'])->name('feedback');
 Route::get('{address}-{blockchain}-address', [AddressesController::class, 'index'])->name('address-blockchain');

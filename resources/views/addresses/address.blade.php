@@ -47,5 +47,24 @@
             }
         });
 
+        $(".load_more").on("click", function(event){
+            event.preventDefault();
+            const url = $(this).attr('href');
+            const this_selector = $(this);
+
+            $.ajax({
+                url,
+                type: "GET",
+                success: function(data){
+                    this_selector.prev().append(data.html);
+                    if(data.next){
+                        this_selector.attr('href', data.next_page);
+                    }else{
+                        this_selector.remove();
+                    }
+                }
+            })
+        });
+
     </script>
 @endsection

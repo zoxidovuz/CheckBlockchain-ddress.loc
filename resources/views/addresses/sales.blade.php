@@ -8,10 +8,10 @@
     <div class="sales__example">
         <ul class="block__ulist">
             <li class="block__uitem">
-                pay 10$ for personal consultation about an address, like in <a href="#" class="link">this example</a>
+                pay 10$ for personal consultation about an address, like in <a href="/exmaple1.pdf" class="link">this example</a>
             </li>
             <li class="block__uitem">
-                pay 50$ for personal analytic of an addresses, like in <a href="#" class="link">this example</a>
+                pay 50$ for personal analytic of an addresses, like in <a href="/exmaple2.pdf" class="link">this example</a>
             </li>
         </ul>
     </div>
