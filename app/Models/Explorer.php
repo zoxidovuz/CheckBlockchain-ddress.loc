@@ -6,5 +6,5 @@ use Illuminate\Database\Eloquent\Model;
 
 class Explorer extends Model
 {
-    protected $table = 'explorer';
+    protected $table = 'Explorer';
 }

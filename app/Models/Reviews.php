@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Reviews extends Model
 {
     public $timestamps = false;
+    protected $table = 'Reviews';
     protected $primaryKey = 'ID_Reviews';
 
     protected $fillable = [
