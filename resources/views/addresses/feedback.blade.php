@@ -57,12 +57,21 @@
                     </div>
                 </div>
                 <div class="feedback__captcha mb-3 feedback__form-el">
-                    <div class="recaptcha__block">5+8=?</div>
+                    {!! htmlFormSnippet([
+                            "theme" => "light",
+                            "size" => "normal",
+                            "tabindex" => "3",
+                            "expired-callback" => "expiredCallbackFunction",
+                            "error-callback" => "errorCallbackFunction",
+                        ]) !!}
+                    {{--<div class="recaptcha__block">
+                        4a5s
+                    </div>
                     <div class="input-group mb-3">
                         <input type="text" class=" mb-3 form-control recaptcha__input" placeholder="Enter capcha"
                                name="recapcha"
                                aria-label="Username" aria-describedby="basic-addon1" required>
-                    </div>
+                    </div>--}}
                 </div>
                 <button type="submit" class="my-btn">Send the rewiev</button>
             </form>

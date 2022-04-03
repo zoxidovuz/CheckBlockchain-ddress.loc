@@ -3,6 +3,10 @@
 @section('meta')
     @include('components.meta')
 @endsection
+
+@section('page-head')
+    {!! htmlScriptTagJsApi() !!}
+@endsection
 @section('content')
     <main itemscope itemtype="https://schema.org/Article">
         @include('components.alert')
