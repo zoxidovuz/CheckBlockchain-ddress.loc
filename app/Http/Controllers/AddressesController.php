@@ -19,6 +19,8 @@ class AddressesController extends Controller
             ->withCount('reviews')
             ->firstOrFail();
 
+        $addressBlock->increment('count_view');
+
         $explorer = Explorer::where('Blockchain', $addressBlock->Blockchain)->first();
 
 

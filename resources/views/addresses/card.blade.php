@@ -71,7 +71,7 @@
                 <td>
                     <div class="owner__tag-mycontainer">
                         <div class="owner__tag">
-                            256
+                            {{ $addressBlock->count_view }}
                         </div>
                     </div>
                 </td>
