@@ -12,6 +12,9 @@
     <link rel="stylesheet" href="{{ asset('style.css') }}">
     <link rel="icon" type="image/x-icon" href="{{ asset('imgs/favicon.ico') }}">
     <title>@yield('title')</title>
+    @if (trim($__env->yieldContent('page-head')))
+        @yield('page-head')
+    @endif
 </head>
 
 <body itemscope itemtype="https://schema.org/WebPage">

@@ -65,8 +65,8 @@ class AddressesController extends Controller
             'tags' => 'required',
             'rating' => 'required',
             'message' => 'required',
-            'recapcha' => 'required',
-            'address' => 'required'
+            'address' => 'required',
+            'g-recaptcha-response' => 'required|recaptcha',
         ]);
 
         $address = Address::query()->where('ID_address', $data['address'])->first();
