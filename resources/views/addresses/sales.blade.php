@@ -1,6 +1,6 @@
 <section class="block sales">
     <h2 class="block__title">
-        Buy advanced manual reports on blockchain address
+        BUY ADVANCED MANUAL REPORTS ON BLOCKCHAIN ADDRESS {{ $addressBlock->Addresses }}
     </h2>
     <div class="sales__label">
         SALE
