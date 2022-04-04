@@ -17,6 +17,6 @@ class Address extends Model
 
     public function reviews()
     {
-        return $this->hasMany(Reviews::class, 'ID_address', 'ID_address');
+        return $this->hasMany(Reviews::class, 'ID_address', 'ID_address')->where('Public_status', 1);
     }
 }

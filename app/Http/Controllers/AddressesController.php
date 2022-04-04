@@ -29,7 +29,7 @@ class AddressesController extends Controller
 
 
         $tags = Tags::query()->where('ID_address', $addressBlock->ID_address)
-            ->orderBy('Date_Tag')->paginate(4, ['*'], 'page_tag');
+            ->orderBy('Date_Tag', 'desc')->paginate(4, ['*'], 'page_tag');
 
         $reviews = Reviews::query()->where('ID_address', $addressBlock->ID_address)
             ->where('Public_status', 1)

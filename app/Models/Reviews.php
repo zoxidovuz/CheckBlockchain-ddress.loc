@@ -28,10 +28,10 @@ class Reviews extends Model
     ];
 
     public function tags(){
-        return $this->hasMany(Tags::class, 'ID_address', 'ID_address');
+        return $this->hasMany(Tags::class, 'Addresses', 'Addresses');
     }
 
     public function reviews(){
-        return $this->hasMany(self::class, 'ID_address', 'ID_address');
+        return $this->hasMany(self::class, 'ID_address', 'ID_address')->where('Public_status', 1);
     }
 }

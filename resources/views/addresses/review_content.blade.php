@@ -20,7 +20,7 @@
         <div class="latest-reviews__text" itemprop="text">{{ $review->Reviews_text }}</div>
         <div class="tags">
             @foreach($review->tags as $tag)
-                <div class="tags__cloud">{{ $tag->Blockchain }}</div>
+                <div class="tags__cloud">{{ $tag->Tag }}</div>
             @endforeach
 
         </div>
