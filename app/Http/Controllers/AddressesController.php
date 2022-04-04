@@ -172,10 +172,8 @@ class AddressesController extends Controller
 
         $siteMapIndex->writeToFile(public_path($sitemapIndexPath));
 
-        return response(file_get_contents(public_path($sitemapIndexPath)), 200, [
-            'Content-Type' => 'application/xml',
-
-
-        ]);
+//        return response(file_get_contents(public_path($sitemapIndexPath)), 200, [
+//            'Content-Type' => 'application/xml',
+//        ]);
     }
 }
