@@ -1,6 +1,6 @@
 <section class="block updates">
     <h2 class="block__title">
-        Latest updates:
+        SEE LATEST UPDATES ON THE ADDRESS, WITH WHOM AND HOW THEY OPERATE.
     </h2>
     <table class="updates__table">
         <thead>
