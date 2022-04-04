@@ -23,7 +23,6 @@
                 <div class="search-panel__icon" style="background: transparent">
                     <img src="{{ asset('/imgs/ic_outline-search.svg') }}" alt="search-icon">
                 </div>
-
             </div>
         </form>
     </div>

@@ -82,7 +82,7 @@
                 </td>
                 <td>
                     <div class="owner__tag-mycontainer">
-                        <div class="owner__tag">{{ $addressBlock->reviews_count }}</div>
+                        <div class="owner__tag">{{ $addressBlock->analytic_count }}</div>
                     </div>
                 </td>
             </tr>

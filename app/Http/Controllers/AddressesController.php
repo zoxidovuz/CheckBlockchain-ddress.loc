@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Address;
+use App\Models\Analytic;
 use App\Models\Explorer;
 use App\Models\Reviews;
 use App\Models\Tags;
@@ -20,16 +21,43 @@ class AddressesController extends Controller
             ->where(['Addresses' => $address, 'Blockchain' => $blockchain])
             ->withAvg('reviews', 'rating')
             ->with('tags')
-            ->withCount('reviews')
+            ->withCount(['reviews', 'analytic'])
             ->firstOrFail();
 
-        $addressBlock->increment('count_view');
+        /*
+         * Set analytics
+         * */
+
+        $user_info = Location::get($request->ip());
+        Analytic::query()->create(
+            [
+                'address_id' => $addressBlock->ID_address,
+                'ip' => $user_info->ip ?? '',
+                'country' => $user_info->countryName ?? '',
+                'city' => $user_info->regionName ?? '',
+                'browser' => $request->userAgent(),
+                'date' => date("Y-m-d H:i:s"),
+                'latitude' => $user_info->latitude ?? '',
+                'longitude' => $user_info->longitude ?? '',
+            ]
+        );
+
+//        $addressBlock->increment('count_view');
 
         $explorer = Explorer::where('Blockchain', $addressBlock->Blockchain)->first();
 
 
         $tags = Tags::query()->where('ID_address', $addressBlock->ID_address)
             ->orderBy('Date_Tag', 'desc')->paginate(4, ['*'], 'page_tag');
+
+
+        if ($request->ajax() && $request->has('page_tag')) {
+            return response()->json([
+                'html' => view('addresses.tag_component', ['tags' => $tags])->render(),
+                'next' => $tags->hasMorePages(),
+                'next_page' => $tags->nextPageUrl()
+            ]);
+        }
 
         $reviews = Reviews::query()->where('ID_address', $addressBlock->ID_address)
             ->where('Public_status', 1)

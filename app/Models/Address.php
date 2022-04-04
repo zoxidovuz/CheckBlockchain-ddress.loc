@@ -19,4 +19,8 @@ class Address extends Model
     {
         return $this->hasMany(Reviews::class, 'ID_address', 'ID_address')->where('Public_status', 1);
     }
+
+    public function analytic(){
+        return $this->hasMany(Analytic::class, 'address_id', 'ID_address')->select('id');
+    }
 }
