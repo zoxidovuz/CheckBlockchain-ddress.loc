@@ -59,10 +59,12 @@ class AddressesController extends Controller
             ]);
         }
 
-        $reviews = Reviews::query()->where('ID_address', $addressBlock->ID_address)
+        $reviews = Reviews::query()
+            ->where('ID_address', $addressBlock->ID_address)
             ->where('Public_status', 1)
             ->orderBy('ID_Reviews', 'desc')
             ->with('tags')->paginate(5);
+
         // Ajax response
         if ($request->ajax()) {
             return response()->json([
@@ -74,12 +76,12 @@ class AddressesController extends Controller
 
         $last_reviews = Reviews::query()
             ->where('Public_status', 1)
-            ->where('ID_address', '!=', $addressBlock->ID_address)
+//            ->where('ID_address', '!=', $addressBlock->ID_address)
             ->orderBy('ID_Reviews', 'desc')
             ->groupBy('ID_address')
             ->with('tags')
             ->withCount('reviews')
-            ->limit(5)
+            ->limit(7)
             ->get();
 
 
@@ -124,10 +126,16 @@ class AddressesController extends Controller
 
     }
 
-    public function default()
+    public function default(Request $request)
     {
         $addresses = Address::query()->paginate(25);
-
+        if ($request->ajax()) {
+            return response()->json([
+                'html' => view('components.main_menu_table', ['addresses' => $addresses])->render(),
+                'next' => $addresses->hasMorePages(),
+                'next_page' => $addresses->nextPageUrl()
+            ]);
+        }
         return view('welcome', ['addresses' => $addresses]);
     }
 

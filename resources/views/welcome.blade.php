@@ -28,22 +28,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                        @foreach($addresses as $address)
-                            <tr>
-                                <td>
-                                    <div class="updates__descr">
-                                        Blockchain
-                                    </div>
-                                    {{ $address->Blockchain }}
-                                </td>
-                                <td>
-                                    <div class="updates__descr">
-                                        Address
-                                    </div>
-                                    <a href="{{ route('address-blockchain', [$address->Addresses, $address->Blockchain]) }}">{{ $address->Addresses }}</a>
-                                </td>
-                            </tr>
-                        @endforeach
+                            @include('components.main_menu_table')
                         </tbody>
                     </table>
                     @if($addresses->hasMorePages())
@@ -57,4 +42,26 @@
 
     </main>
 
+@endsection
+@section('page-script')
+    <script>
+        $(".updates__load-btn a").on("click", function(event){
+            event.preventDefault();
+            const url = $(this).attr('href');
+            const this_selector = $(this);
+
+            $.ajax({
+                url,
+                type: "GET",
+                success: function(data){
+                    $('tbody').append(data.html);
+                    if(data.next){
+                        this_selector.attr('href', data.next_page);
+                    }else{
+                        this_selector.remove();
+                    }
+                }
+            })
+        });
+    </script>
 @endsection

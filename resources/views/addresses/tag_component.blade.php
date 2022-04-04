@@ -4,7 +4,7 @@
             <div class="updates__descr">
                 Date
             </div>
-            {{ \Carbon\Carbon::parse($tag->Date_Tag)->format('d.m.Y') }}
+            {{ $tag->Date_tag->format('d.m.Y') }}
         </td>
         <td>
             <div class="updates__descr">
