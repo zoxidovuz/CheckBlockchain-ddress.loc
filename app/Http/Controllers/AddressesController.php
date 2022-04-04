@@ -143,7 +143,7 @@ class AddressesController extends Controller
     public function sitemap()
     {
         // Configuration
-        $sitemapIndexPath = 'sitemap.xml';
+        $sitemapIndexPath = 'sitemap_index.xml';
         $i = 1;
         $sitemap_count = 100000;
 
@@ -174,8 +174,6 @@ class AddressesController extends Controller
 
         return response(file_get_contents(public_path($sitemapIndexPath)), 200, [
             'Content-Type' => 'application/xml',
-
-
         ]);
     }
 }
