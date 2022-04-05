@@ -21,13 +21,14 @@ class AddressesController extends Controller
      */
     public function index($address, $blockchain, Request $request)
     {
-        $addressBlock = Address::query()
-            ->where(['Addresses' => $address, 'Blockchain' => $blockchain])
-            ->withAvg('reviews', 'rating')
-            ->with('tags')
-            ->withCount(['reviews', 'analytic'])
-            ->firstOrFail();
-
+        $addressBlock = cache()->remember('address_' . $address . "_" . $blockchain, 3600, function () use ($address, $blockchain) {
+            return Address::query()
+                ->where(['Addresses' => $address, 'Blockchain' => $blockchain])
+                ->withAvg('reviews', 'rating')
+                ->with('tags')
+                ->withCount(['reviews', 'analytic'])
+                ->firstOrFail();
+        });
 
         $tags = Tags::query()->where('ID_address', $addressBlock->ID_address)
             ->orderBy('Date_Tag', 'desc')
@@ -57,19 +58,21 @@ class AddressesController extends Controller
             ]);
         }
 
-        $explorer = Explorer::query()->where('Blockchain', $addressBlock->Blockchain)->first();
+        $explorer = cache()->remember('explorer_' . $addressBlock->Blockchain, 3600, function () use ($addressBlock) {
+            return Explorer::query()->where('Blockchain', $addressBlock->Blockchain)->first();
+        });
 
-        $last_reviews = Reviews::query()
-            ->where('Public_status', 1)
-//            ->where('ID_address', '!=', $addressBlock->ID_address)
-            ->orderBy('ID_Reviews', 'desc')
-            ->groupBy('ID_address')
-//            ->with('tags')
-            ->withCount('reviews')
-            ->limit(7)
-            ->get();
+        $last_reviews = cache()->remember('review_latest', 3600, function () {
+            return Reviews::query()
+                ->where('Public_status', 1)
+                ->orderBy('ID_Reviews', 'desc')
+                ->groupBy('ID_address')
+                ->withCount('reviews')
+                ->limit(7)
+                ->get();
+        });
 
-        $tag_lists = cache()->remember('tag_list', 3600*24, function () {
+        $tag_lists = cache()->remember('tag_list', 3600 * 24, function () {
             return TagsList::query()->select('Tag')->get()->toArray();
         });
 
