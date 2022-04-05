@@ -6,5 +6,5 @@ use Illuminate\Database\Eloquent\Model;
 
 class TagsList extends Model
 {
-    protected $table = 'tags_list';
+    protected $table = 'Tags_list';
 }
