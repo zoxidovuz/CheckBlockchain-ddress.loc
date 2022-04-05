@@ -3,7 +3,6 @@
 @section('meta')
     @include('components.meta')
 @endsection
-
 @section('page-head')
     {!! htmlScriptTagJsApi() !!}
 @endsection

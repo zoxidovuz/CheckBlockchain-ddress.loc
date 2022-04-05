@@ -12,8 +12,6 @@
         {{ $review->Reviews_text }}
     </div>
     <div class="tags">
-        @foreach($review->tags as $tag)
-            <div class="tags__cloud">{{ $tag->Tag }}</div>
-        @endforeach
+        <div class="tags__cloud">{{ $review->Tag }}</div>
     </div>
 </div>

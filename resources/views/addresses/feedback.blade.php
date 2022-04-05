@@ -26,10 +26,9 @@
                         </div>
                         <select name="tags[]" title="Chose tags:" class="form-control" id="example-multiple-selected"
                                 multiple="multiple" required>
-                            <option value="Scam">Scam</option>
-                            <option value="Binance exchange">Binance exchange</option>
-                            <option value="Existing StarAtlas account">Existing StarAtlas account</option>
-                            <option value="Scam2">Scam2</option>
+                            @foreach($tag_lists as $tag_list)
+                                <option value="{{ $tag_list['Tag'] }}">{{ $tag_list['Tag'] }}</option>
+                            @endforeach
                         </select>
                     </div>
                     <div class="feedback__form-el feedback__rating">

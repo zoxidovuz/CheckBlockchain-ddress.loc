@@ -7,6 +7,7 @@ use App\Models\Analytic;
 use App\Models\Explorer;
 use App\Models\Reviews;
 use App\Models\Tags;
+use App\Models\TagsList;
 use Illuminate\Http\Request;
 use Spatie\Sitemap\Sitemap;
 use Spatie\Sitemap\SitemapIndex;
@@ -15,6 +16,9 @@ use Stevebauman\Location\Facades\Location;
 
 class AddressesController extends Controller
 {
+    /**
+     * @throws \Exception
+     */
     public function index($address, $blockchain, Request $request)
     {
         $addressBlock = Address::query()
@@ -24,11 +28,53 @@ class AddressesController extends Controller
             ->withCount(['reviews', 'analytic'])
             ->firstOrFail();
 
-        /*
-         * Set analytics
-         * */
+
+        $tags = Tags::query()->where('ID_address', $addressBlock->ID_address)
+            ->orderBy('Date_Tag', 'desc')
+            ->paginate(4, ['*'], 'page_tag');
+
+        // Tag list ajax load
+        if ($request->ajax() && $request->has('page_tag')) {
+            return response()->json([
+                'html' => view('addresses.tag_component', ['tags' => $tags])->render(),
+                'next' => $tags->hasMorePages(),
+                'next_page' => $tags->nextPageUrl()
+            ]);
+        }
+
+        $reviews = Reviews::query()
+            ->where('ID_address', $addressBlock->ID_address)
+            ->where('Public_status', 1)
+            ->orderBy('ID_Reviews', 'desc')
+            ->paginate(5);
+
+        // Ajax review response
+        if ($request->ajax()) {
+            return response()->json([
+                'html' => view('addresses.review_content', ['reviews' => $reviews])->render(),
+                'next' => $reviews->hasMorePages(),
+                'next_page' => $reviews->nextPageUrl()
+            ]);
+        }
+
+        $explorer = Explorer::query()->where('Blockchain', $addressBlock->Blockchain)->first();
+
+        $last_reviews = Reviews::query()
+            ->where('Public_status', 1)
+//            ->where('ID_address', '!=', $addressBlock->ID_address)
+            ->orderBy('ID_Reviews', 'desc')
+            ->groupBy('ID_address')
+//            ->with('tags')
+            ->withCount('reviews')
+            ->limit(7)
+            ->get();
+
+        $tag_lists = cache()->remember('tag_list', 3600*24, function () {
+            return TagsList::query()->select('Tag')->get()->toArray();
+        });
 
         $user_info = Location::get($request->ip());
+
         Analytic::query()->create(
             [
                 'address_id' => $addressBlock->ID_address,
@@ -42,50 +88,7 @@ class AddressesController extends Controller
             ]
         );
 
-//        $addressBlock->increment('count_view');
-
-        $explorer = Explorer::where('Blockchain', $addressBlock->Blockchain)->first();
-
-
-        $tags = Tags::query()->where('ID_address', $addressBlock->ID_address)
-            ->orderBy('Date_Tag', 'desc')->paginate(4, ['*'], 'page_tag');
-
-
-        if ($request->ajax() && $request->has('page_tag')) {
-            return response()->json([
-                'html' => view('addresses.tag_component', ['tags' => $tags])->render(),
-                'next' => $tags->hasMorePages(),
-                'next_page' => $tags->nextPageUrl()
-            ]);
-        }
-
-        $reviews = Reviews::query()
-            ->where('ID_address', $addressBlock->ID_address)
-            ->where('Public_status', 1)
-            ->orderBy('ID_Reviews', 'desc')
-            ->with('tags')->paginate(5);
-
-        // Ajax response
-        if ($request->ajax()) {
-            return response()->json([
-                'html' => view('addresses.review_content', ['reviews' => $reviews])->render(),
-                'next' => $reviews->hasMorePages(),
-                'next_page' => $reviews->nextPageUrl()
-            ]);
-        }
-
-        $last_reviews = Reviews::query()
-            ->where('Public_status', 1)
-//            ->where('ID_address', '!=', $addressBlock->ID_address)
-            ->orderBy('ID_Reviews', 'desc')
-            ->groupBy('ID_address')
-            ->with('tags')
-            ->withCount('reviews')
-            ->limit(7)
-            ->get();
-
-
-        return view('addresses.address', compact('addressBlock', 'last_reviews', 'reviews', 'tags', 'explorer'));
+        return view('addresses.address', compact('addressBlock', 'last_reviews', 'reviews', 'tags', 'explorer', 'tag_lists'));
     }
 
 
