@@ -24,8 +24,8 @@
                         <div class="feedback__desc">
                             Type of tags:
                         </div>
-                        <select name="tags[]" title="Chose tags:" class="form-control" id="example-multiple-selected"
-                                multiple="multiple" required>
+                        <select name="tag" title="Chose tags:" class="form-control" id="example-multiple-selected"
+                                required>
                             @foreach($tag_lists as $tag_list)
                                 <option value="{{ $tag_list['Tag'] }}">{{ $tag_list['Tag'] }}</option>
                             @endforeach

@@ -98,7 +98,7 @@ class AddressesController extends Controller
 
         $data = $request->validate([
             'name' => 'required',
-            'tags' => 'required',
+            'tag' => 'required',
             'rating' => 'required',
             'message' => 'required',
             'address' => 'required',
@@ -119,7 +119,7 @@ class AddressesController extends Controller
             'Region' => $location->regionName ?? 'None',
             'Browser' => $request->userAgent(),
             'Name' => $data['name'],
-            'Tag' => implode(', ', $data['tags']),
+            'Tag' => $data['tag'],
             'Rating' => $data['rating'],
             'Reviews_text' => $data['message'],
             'Public_status' => 1,
