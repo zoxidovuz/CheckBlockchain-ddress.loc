@@ -62,15 +62,13 @@ class AddressesController extends Controller
             return Explorer::query()->where('Blockchain', $addressBlock->Blockchain)->first();
         });
 
-        $last_reviews = cache()->remember('review_latest', 3600, function () {
-            return Reviews::query()
-                ->where('Public_status', 1)
-                ->orderBy('ID_Reviews', 'desc')
-                ->groupBy('ID_address')
-                ->withCount('reviews')
-                ->limit(7)
-                ->get();
-        });
+        $last_reviews = Reviews::query()
+        ->where('Public_status', 1)
+        ->orderBy('ID_Reviews', 'desc')
+        ->groupBy('ID_address')
+        ->withCount('reviews')
+        ->limit(7)
+        ->get();;
 
         $tag_lists = cache()->remember('tag_list', 3600 * 24, function () {
             return TagsList::query()->select('Tag')->get()->toArray();
