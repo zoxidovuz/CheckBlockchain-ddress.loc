@@ -65,10 +65,10 @@ class AddressesController extends Controller
         $last_reviews = Reviews::query()
         ->where('Public_status', 1)
         ->orderBy('ID_Reviews', 'desc')
-        ->groupBy('ID_address')
         ->withCount('reviews')
         ->limit(7)
-        ->get();;
+        ->get()->unique('ID_address');
+
 
         $tag_lists = cache()->remember('tag_list', 3600 * 24, function () {
             return TagsList::query()->select('Tag')->get()->toArray();
