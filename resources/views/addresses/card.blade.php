@@ -106,7 +106,9 @@
     <div class="owner__view-all">
         <h3 class="owner__view-all-header block__title">
             View all transactions on
-            <a href="{{ $explorer->Link_to_explorer . $addressBlock->Addresses }}" class="link" target="_blank">{{ $addressBlock->Blockchain }}</a> browser
+            @if($explorer)
+                <a href="{{ $explorer->Link_to_explorer . $addressBlock->Addresses }}" class="link" target="_blank">{{ $addressBlock->Blockchain }}</a>
+            @endif browser
         </h3>
         <div>
             How can I:
