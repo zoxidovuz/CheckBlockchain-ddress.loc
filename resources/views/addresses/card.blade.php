@@ -97,6 +97,10 @@
                         @foreach($addressBlock->tags as $tag)
                             <div class="owner__tag">{{ $tag->Tag }} </div>
                         @endforeach
+
+                        @foreach($tags_in_reviews as $tag)
+                            <div class="owner__tag">{{ $tag['Tag'] }} </div>
+                        @endforeach
                     </div>
                 </td>
             </tr>

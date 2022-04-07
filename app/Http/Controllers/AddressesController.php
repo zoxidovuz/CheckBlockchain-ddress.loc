@@ -34,6 +34,11 @@ class AddressesController extends Controller
             ->orderBy('Date_Tag', 'desc')
             ->paginate(4, ['*'], 'page_tag');
 
+
+
+        $tags_in_reviews = Reviews::query()->select('ID_address', 'Tag')->where('ID_address', $addressBlock->ID_address)->get()->toArray();
+
+
         // Tag list ajax load
         if ($request->ajax() && $request->has('page_tag')) {
             return response()->json([
@@ -89,7 +94,8 @@ class AddressesController extends Controller
             ]
         );
 
-        return view('addresses.address', compact('addressBlock', 'last_reviews', 'reviews', 'tags', 'explorer', 'tag_lists'));
+        return view('addresses.address',
+            compact('addressBlock', 'last_reviews', 'reviews', 'tags', 'explorer', 'tag_lists', 'tags_in_reviews'));
     }
 
 
