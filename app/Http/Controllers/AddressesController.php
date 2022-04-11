@@ -167,25 +167,43 @@ class AddressesController extends Controller
 
 
         $siteMapIndex = SitemapIndex::create();
-        $sitemap = Sitemap::create();
+
+        $sitemap_head = '<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
+    ';
+
+        $sitemap_footer = "</urlset>";
+
+        $sitemap_content = "";
+        $sitemap_page_count = 0;
 
         Address::query()->select(['ID_address', 'Addresses', 'Blockchain'])->chunkById(10000,
-            static function ($addresses) use (&$i, $sitemap_count, $siteMapIndex, $sitemap) {
+            static function ($addresses) use (&$i, $sitemap_count, &$sitemap_page_count, &$siteMapIndex, &$sitemap_content, $sitemap_head, $sitemap_footer) {
                 foreach ($addresses as $address) {
                     if ($i % $sitemap_count === 0) {
-                        $sitemapPath = "items_sitemap_" . ($i / $sitemap_count) . ".xml";
-                        $sitemap->writeToFile($sitemapPath);
+                        $sitemapPath = "items_sitemap_" . $sitemap_page_count . ".xml";
 
+                        file_put_contents($sitemapPath, $sitemap_head . $sitemap_content . $sitemap_footer);
                         $siteMapIndex->add($sitemapPath);
-                        $sitemap = Sitemap::create();
+                        $sitemap_content = '';
+                        $sitemap_page_count++;
                     }
-                    $sitemap->add(Url::create("/{$address->Addresses}-{$address->Blockchain}-address"));
+
+                    $url = Url::create("/{$address->Addresses}-{$address->Blockchain}-address");
+
+                    $sitemap_content .= '<url>
+        <loc>' . config('app.url') . $url->url . '</loc>
+        <lastmod>' . $url->lastModificationDate . '</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>' . $url->priority . '</priority>
+    </url>
+    ';
                     $i++;
                 }
             });
 
-        $sitemapPath = "items_sitemap_" . (round($i / $sitemap_count)) . ".xml";
-        $sitemap->writeToFile($sitemapPath);
+        $sitemapPath = "items_sitemap_" . $sitemap_page_count . ".xml";
+        file_put_contents($sitemapPath, $sitemap_head . $sitemap_content . $sitemap_footer);
+        $sitemap_content = '';
         $siteMapIndex->add($sitemapPath);
 
         $siteMapIndex->writeToFile(public_path($sitemapIndexPath));
@@ -193,16 +211,5 @@ class AddressesController extends Controller
         return response(file_get_contents(public_path($sitemapIndexPath)), 200, [
             'Content-Type' => 'application/xml',
         ]);
-    }
-
-    public function check(){
-        $count = 0;
-        Address::query()->select(['ID_address', 'Addresses', 'Blockchain'])->chunkById(10000,
-            static function ($addresses) use (&$count) {
-                foreach ($addresses as $address) {
-                    $count++;
-                }
-            });
-        dd($count);
     }
 }
