@@ -198,7 +198,7 @@ class AddressesController extends Controller
     public function check(){
         $count = 0;
         Address::query()->select(['ID_address', 'Addresses', 'Blockchain'])->chunkById(10000,
-            static function ($addresses) use ($count) {
+            static function ($addresses) use (&$count) {
                 foreach ($addresses as $address) {
                     $count++;
                 }
