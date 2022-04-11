@@ -163,14 +163,14 @@ class AddressesController extends Controller
         // Configuration
         $sitemapIndexPath = 'sitemap_index.xml';
         $i = 1;
-        $sitemap_count = 100000;
+        $sitemap_count = 50000;
 
 
         $siteMapIndex = SitemapIndex::create();
         $sitemap = Sitemap::create();
 
         Address::query()->select(['ID_address', 'Addresses', 'Blockchain'])->chunkById(10000,
-            static function ($addresses) use ($i, $sitemap_count, $siteMapIndex, $sitemap) {
+            static function ($addresses) use (&$i, $sitemap_count, $siteMapIndex, $sitemap) {
                 foreach ($addresses as $address) {
                     if ($i % $sitemap_count === 0) {
                         $sitemapPath = "items_sitemap_" . ($i / $sitemap_count) . ".xml";
