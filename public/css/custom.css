@@ -1,0 +1,10 @@
+.dropdown-menu{
+    max-height: 300px;
+    overflow: auto;
+}
+.w-100{
+    width: 100%;
+}
+.owner__tag a{
+    color: #fff;
+}
