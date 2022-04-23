@@ -8,6 +8,7 @@
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" />
     @yield('meta')
     <link rel="stylesheet" href="{{ asset('style.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/custom.css') }}">
     <link rel="icon" type="image/x-icon" href="{{ asset('imgs/favicon.ico') }}">
     <title>@yield('title')</title>
     @if (trim($__env->yieldContent('page-head')))

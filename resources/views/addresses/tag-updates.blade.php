@@ -15,10 +15,10 @@
             @include('addresses.tag_component')
         </tbody>
     </table>
-    @if($tags->hasMorePages())
+    {{--@if($tags->hasMorePages())
         <div class="updates__load-btn">
             <a href="{{ $tags->nextPageUrl() }}" class="my-btn">Load more ...</a>
         </div>
-    @endif
+    @endif--}}
 
 </section>

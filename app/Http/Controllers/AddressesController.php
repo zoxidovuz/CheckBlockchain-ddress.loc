@@ -9,7 +9,6 @@ use App\Models\Reviews;
 use App\Models\Tags;
 use App\Models\TagsList;
 use Illuminate\Http\Request;
-use Spatie\Sitemap\Sitemap;
 use Spatie\Sitemap\SitemapIndex;
 use Spatie\Sitemap\Tags\Url;
 use Stevebauman\Location\Facades\Location;
@@ -32,7 +31,7 @@ class AddressesController extends Controller
 
         $tags = Tags::query()->where('ID_address', $addressBlock->ID_address)
             ->orderBy('Date_Tag', 'desc')
-            ->paginate(4, ['*'], 'page_tag');
+            ->get();
 
 
 
@@ -138,7 +137,7 @@ class AddressesController extends Controller
 
     public function default(Request $request)
     {
-        $addresses = Address::query()->paginate(25);
+        $addresses = Address::query()->paginate(100);
         if ($request->ajax()) {
             return response()->json([
                 'html' => view('components.main_menu_table', ['addresses' => $addresses])->render(),
@@ -211,5 +210,16 @@ class AddressesController extends Controller
         return response(file_get_contents(public_path($sitemapIndexPath)), 200, [
             'Content-Type' => 'application/xml',
         ]);
+    }
+
+    public function tags($slug){
+        $slug = str_replace('_', ' ', $slug);
+        $tag = false;
+        $tags = Tags::where('tag', $slug)->paginate(25);
+
+        if($tags){
+            $tag = $tags[0] ?? false;
+        }
+        return view("tag", compact('tag', 'tags'));
     }
 }

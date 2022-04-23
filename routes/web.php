@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [AddressesController::class, 'default'])->name('default');
 Route::get('/search', [AddressesController::class, 'search'])->name('search');
+Route::get('/tags/{slug}', [AddressesController::class, 'tags'])->name('tags');
 Route::get('/sitemap.xml', [AddressesController::class, 'sitemap'])->name('sitemap');
 Route::post('feedback', [AddressesController::class, 'store'])->name('feedback');
 Route::get('{address}-{blockchain}-address', [AddressesController::class, 'index'])->name('address-blockchain');

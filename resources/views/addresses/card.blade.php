@@ -53,7 +53,7 @@
                 </td>
                 <td>
                     <div class="owner__tag-mycontainer" itemprop="aggregateRating" itemscope
-                         itemtype="http://schema.org/Rating">
+                         itemtype="https://schema.org/Rating">
                         <meta itemprop="worstRating" content="1">
                         <div class="owner__tag red">
                             <span itemprop="ratingValue">{{ $addressBlock->reviews_avg_rating ? round($addressBlock->reviews_avg_rating, 1) : '-' }}</span> / <span
@@ -95,11 +95,11 @@
                 <td>
                     <div class="owner__tag-mycontainer">
                         @foreach($addressBlock->tags as $tag)
-                            <div class="owner__tag">{{ $tag->Tag }} </div>
+                            <div class="owner__tag"><a href="{{ route('tags', str_replace(' ', '_', $tag->Tag)) }}">{{ $tag->Tag }}</a> </div>
                         @endforeach
 
                         @foreach($tags_in_reviews as $tag)
-                            <div class="owner__tag">{{ $tag['Tag'] }} </div>
+                            <div class="owner__tag"><a href="{{ route('tags', str_replace(' ', '_', $tag->Tag)) }}">{{ $tag['Tag'] }}</a></div>
                         @endforeach
                     </div>
                 </td>

@@ -1,2 +1,6 @@
 User-agent: *
 Disallow:
+Allow: /*/search*
+Host: https://checkblockchainaddress.com
+Sitemap: https://checkblockchainaddress.com/sitemap.xml
+Sitemap: https://checkblockchainaddress.com/sitemap_index.xml
