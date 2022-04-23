@@ -32,9 +32,10 @@
                         </tbody>
                     </table>
                     @if($addresses->hasMorePages())
-                        <div class="updates__load-btn">
-                            {{ $addresses->links() }}
+                        <div class="col-12 d-flex justify-content-center pt-4" class="li: { list-style: none; }">
+                            {!! $addresses->links() !!}
                         </div>
+
                     @endif
                 </section>
             </div>
