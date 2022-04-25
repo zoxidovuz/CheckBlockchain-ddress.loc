@@ -95,11 +95,15 @@
                 <td>
                     <div class="owner__tag-mycontainer">
                         @foreach($addressBlock->tags as $tag)
-                            <div class="owner__tag"><a href="{{ route('tags', str_replace(' ', '_', $tag->Tag)) }}">{{ $tag->Tag }}</a> </div>
+                            @if(isset($tag->Tag))
+                            <div class="owner__tag"><a href="{{ route('tags', str_replace(' ', '_', $tag->Tag)) }}">{{ $tag['Tag'] }}</a></div>
+                            @endif
                         @endforeach
 
                         @foreach($tags_in_reviews as $tag)
+                            @if(isset($tag->Tag))
                             <div class="owner__tag"><a href="{{ route('tags', str_replace(' ', '_', $tag->Tag)) }}">{{ $tag['Tag'] }}</a></div>
+                            @endif
                         @endforeach
                     </div>
                 </td>
