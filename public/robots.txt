@@ -1,5 +1,5 @@
 User-agent: *
-Allow: /*/search*
+Disallow: /search*
 Host: https://checkblockchainaddress.com
 Sitemap: https://checkblockchainaddress.com/sitemap.xml
 Sitemap: https://checkblockchainaddress.com/sitemap_index.xml
