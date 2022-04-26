@@ -18,7 +18,7 @@
             <div class="main-content">
                 <section class="block updates h-100">
                     <h1 class="block__title">{{ $tag->Tag }}</h1>
-                    <p>{{ $tag->Tag_description }}</p>
+                    <p>{{ $tag->Tags_list_description }}</p>
                     <table class="updates__table w-100">
                         <thead>
                         <tr>
