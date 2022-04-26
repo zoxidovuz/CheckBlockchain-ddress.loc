@@ -11,7 +11,7 @@ class BlockIpAddressMiddleware
      * @var string[]
      */
     public $blacklistIps = [
-        '127.0.0.1'
+
     ];
 
     /**

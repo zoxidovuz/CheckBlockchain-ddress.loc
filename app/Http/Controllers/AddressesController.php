@@ -214,12 +214,8 @@ class AddressesController extends Controller
 
     public function tags($slug){
         $slug = str_replace('_', ' ', $slug);
-        $tag = false;
+        $tag = TagsList::where('Tag', $slug)->firstOrFail();
         $tags = Tags::where('tag', $slug)->paginate(25);
-
-        if($tags){
-            $tag = $tags[0] ?? false;
-        }
         return view("tag", compact('tag', 'tags'));
     }
 }
